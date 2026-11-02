@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacts</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #edf3f5;
+      color: #20343e;
+      padding: 30px 15px;
+    }
+
+    main {
+      max-width: 500px;
+      margin: auto;
+      padding: 25px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px #cccccc;
+    }
+
+    h1 {
+      text-align: center;
+      color: #176b65;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 25px 0;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 14px;
+      border-bottom: 1px solid #dddddd;
+    }
+
+    th {
+      background-color: #176b65;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f1f7f7;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #176b65;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #104e49;
+    }
+
+    #result {
+      background-color: #f1f7f7;
+      padding: 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>Contacts</h1>
+    <p>Select a slot number from 0 to 5 to find a familiar face!</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Slot #</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody id="contactRows"></tbody>
+    </table>
+
+    <button onclick="searchContacts()">Select a Contact</button>
+
+    <p id="result" role="status">
+      Your selected contact will appear here.
+    </p>
+  </main>
+
+  <script>
+    // Store the names in an array.
+    var names = ["Arnold", "Sly", "Dwayne", "Vin", "JCVD", "Steven"];
+
+    // Display each contact in its own table row.
+    var row = 0;
+
+    while (row < names.length) {
+      document.getElementById("contactRows").innerHTML +=
+        "<tr><td>" + row + "</td><td>" + names[row] + "</td></tr>";
+
+      row++;
+    }
+
+    function searchContacts() {
+      var searchAgain = true;
+
+      // Keep searching while the user wants to continue.
+      while (searchAgain) {
+        var slot = prompt("Enter the slot number of a contact (0–5):");
+
+        if (slot === null) {
+          searchAgain = false;
+        } else {
+          var index = 0;
+          var found = false;
+
+          // Search for the requested slot using a while loop.
+          while (index < names.length && found === false) {
+            if (slot.trim() === String(index)) {
+              var message = "You selected " + names[index] + ".";
+
+              document.getElementById("result").textContent = message;
+              alert(message);
+
+              found = true;
+            }
+
+            index++;
+          }
+
+          if (found) {
+            searchAgain = confirm(
+              "Another familiar face awaits! Would you like to select another name?"
+            );
+          } else {
+            document.getElementById("result").textContent =
+              "Name not found. Please choose a slot from 0 to 5.";
+
+            searchAgain = confirm(
+              "Name not found. Would you like to try again? Enter a slot number from 0 to 5."
+            );
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>
